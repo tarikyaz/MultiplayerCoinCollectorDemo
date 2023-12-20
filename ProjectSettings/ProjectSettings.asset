@@ -938,10 +938,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 502d3a48-d441-4e4c-80aa-6c18ed27c0b5
+  cloudProjectId: 0955e256-8794-49e6-87a2-97119e71ca8f
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: MultiplayerCoinCollectorDemo
+  projectName: Multiplayer Coin Collector
   organizationId: unity_86e490ba2ac40285facc
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
