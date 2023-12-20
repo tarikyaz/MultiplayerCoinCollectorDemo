@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 using TMPro;
+using System.Diagnostics;
 
 public class AuthenticationManager : MonoBehaviour
 {
@@ -11,7 +12,20 @@ public class AuthenticationManager : MonoBehaviour
     public TMP_Text resultText;
 
     private string baseUrl = "http://localhost:3000";
-
+    Process server;
+    private void Start()
+    {
+        server = new Process();
+        ProcessStartInfo startInfo = new ProcessStartInfo();
+        startInfo.FileName = "node"; // or provide the full path to node executable
+        startInfo.Arguments = "Assets/Server/nodejs-login-signup/app.js"; // specify your Node.js server file
+        server.StartInfo = startInfo;
+        server.Start();
+    }
+    private void OnApplicationQuit()
+    {
+        server.Kill();
+    }
     public void SignUp()
     {
         StartCoroutine(SendSignUpRequest());
