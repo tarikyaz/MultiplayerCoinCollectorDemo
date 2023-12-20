@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using TMPro;
 using System.Diagnostics;
+using System.Net.WebSockets;
 
 public class AuthenticationManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class AuthenticationManager : MonoBehaviour
         server = new Process();
         ProcessStartInfo startInfo = new ProcessStartInfo();
         startInfo.FileName = "node"; // or provide the full path to node executable
-        startInfo.Arguments = "Assets/Server/nodejs-login-signup/app.js"; // specify your Node.js server file
+        startInfo.Arguments = "Assets/Server/App/app.js"; // specify your Node.js server file
         server.StartInfo = startInfo;
         server.Start();
     }
