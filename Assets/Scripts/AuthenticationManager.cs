@@ -43,15 +43,13 @@ public class AuthenticationManager : MonoBehaviour
     }
     void SignUp()
     {
-        usernameInput.text = "";
-        passwordInput.text = "";
+        usernameInput.text = passwordInput.text = resultText.text = "";
         StartCoroutine(SendSignUpRequest());
     }
 
     void Login()
     {
-        usernameInput.text = "";
-        passwordInput.text = "";
+        usernameInput.text =  passwordInput.text = resultText.text= "";
         StartCoroutine(SendLoginRequest());
     }
 

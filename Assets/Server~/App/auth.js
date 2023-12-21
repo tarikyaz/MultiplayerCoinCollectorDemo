@@ -83,8 +83,17 @@ const jwt = require('jsonwebtoken');
 
         if (passwordMatch) {
             req.session.user = username;
-            const tKey = jwt.sign({ username: user.username }, "jwtSecret", { expiresIn: '1h' });
-            res.json({ message: 'Login successful!', token: tKey });
+            // Get the current date and time
+            const currentDate = new Date();
+
+            // Format the date as a string (e.g., "2023-01-25 15:30:00")
+            const formattedDateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
+
+            console.log("Current Date and Time:", formattedDateString);
+            var jwtSecret = formattedDateString + username;
+            jwtSecret = shuffleString(jwtSecret);
+            const tKey = jwt.sign({ username: user.username }, jwtSecret, { expiresIn: '1h' });
+            res.json({ message: ' Login successful!', token: tKey });
 
         } else {
             res.status(401).send('Invalid username or password');
@@ -100,5 +109,20 @@ const jwt = require('jsonwebtoken');
     // Start the server
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
+function shuffleString(inputString) {
+    // Convert the string to an array of characters
+    let charArray = inputString.split('');
+
+    // Shuffle the array
+    for (let i = charArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [charArray[i], charArray[j]] = [charArray[j], charArray[i]];
+    }
+
+    // Join the characters back into a string
+    const shuffledString = charArray.join('');
+
+    return shuffledString;
 }
 module.exports = { InitAuth }; // Export the Init function
