@@ -9,32 +9,49 @@ using System;
 
 public class AuthenticationManager : MonoBehaviour
 {
-    public TMP_InputField usernameInput;
-    public TMP_InputField passwordInput;
-    public TMP_Text resultText;
+    [SerializeField] Button login_Button, signup_Button;
+    [SerializeField] TMP_InputField usernameInput,passwordInput;
+    [SerializeField] TMP_Text resultText;
 
     private string baseUrl = "http://localhost:3000";
     Process server;
     private void Start()
     {
+        OnInputChange();
         server = new Process();
         ProcessStartInfo startInfo = new ProcessStartInfo();
         startInfo.FileName = "node"; // or provide the full path to node executable
-        startInfo.Arguments = "Assets/Server/App/app.js"; // specify your Node.js server file
+        startInfo.Arguments = "Assets/Server~/App/app.js"; // specify your Node.js server file
         server.StartInfo = startInfo;
         server.Start();
+        usernameInput.onValueChanged.AddListener((str) => {
+            OnInputChange();
+        });
+        passwordInput.onValueChanged.AddListener((str) => {
+            OnInputChange();
+        });
+        login_Button.onClick.AddListener(Login);
+        signup_Button.onClick.AddListener(SignUp);
+    }
+    void OnInputChange()
+    {
+        login_Button.interactable = signup_Button.interactable = !string.IsNullOrWhiteSpace(usernameInput.text) && !string.IsNullOrWhiteSpace(passwordInput.text);
     }
     private void OnApplicationQuit()
     {
         server.Kill();
     }
-    public void SignUp()
+    void SignUp()
     {
+        usernameInput.text = "";
+        passwordInput.text = "";
         StartCoroutine(SendSignUpRequest());
     }
 
-    public void Login()
+    void Login()
     {
+        usernameInput.text = "";
+        passwordInput.text = "";
         StartCoroutine(SendLoginRequest());
     }
 
