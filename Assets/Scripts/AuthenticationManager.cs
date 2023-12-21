@@ -5,6 +5,7 @@ using System.Collections;
 using TMPro;
 using System.Diagnostics;
 using System.Net.WebSockets;
+using System;
 
 public class AuthenticationManager : MonoBehaviour
 {
@@ -72,12 +73,21 @@ public class AuthenticationManager : MonoBehaviour
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                resultText.text = www.downloadHandler.text;
+                LoginResponse response = JsonUtility.FromJson<LoginResponse>(www.downloadHandler.text);
+
+                resultText.text = response.message;
+                UnityEngine.Debug.Log($"AccessToken : {response.token}");
             }
             else
             {
                 resultText.text = "Error: " + www.error;
             }
         }
+    }
+    [System.Serializable]
+    public class LoginResponse
+    {
+        public string message;
+        public string token;
     }
 }

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
 
  function InitAuth(){
 
@@ -14,6 +15,7 @@ const session = require('express-session');
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
+
     mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
     mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
@@ -81,7 +83,9 @@ const session = require('express-session');
 
         if (passwordMatch) {
             req.session.user = username;
-            res.send('Login successful!');
+            const tKey = jwt.sign({ username: user.username }, "jwtSecret", { expiresIn: '1h' });
+            res.json({ message: 'Login successful!', token: tKey });
+
         } else {
             res.status(401).send('Invalid username or password');
         }
